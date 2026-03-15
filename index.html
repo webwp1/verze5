@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cs">
+<html lang="sk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Vylepšená paleta: Midnight Electric */
-            --primary: #6366f1; /* Electric Indigo */
-            --secondary: #06b6d4; /* Cyber Cyan */
-            --accent: #f43f5e; /* Rose Burst */
-            --bg-dark: #020617; /* Deep Midnight */
+            --primary: #6366f1; 
+            --secondary: #06b6d4; 
+            --accent: #f43f5e; 
+            --bg-dark: #020617; 
             --text-main: #f8fafc;
             --glass: rgba(15, 23, 42, 0.6);
             --border-glass: rgba(255, 255, 255, 0.08);
             --card-shadow: rgba(0, 0, 0, 0.6);
-            --glow-player: rgba(99, 102, 241, 0); /* Záře při nečinnosti (vypnutá) */
+            --glow-player: rgba(99, 102, 241, 0.2);
         }
 
         [data-theme="light"] {
@@ -25,11 +24,9 @@
             --text-main: #0f172a;
             --glass: rgba(255, 255, 255, 0.8);
             --border-glass: rgba(15, 23, 42, 0.08);
-            --card-shadow: rgba(0, 0, 0, 0.05);
-            --glow-player: rgba(0, 0, 0, 0.05);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.4s, color 0.4s, border-color 0.4s, box-shadow 0.4s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: 0.4s; }
 
         body {
             background: var(--bg-dark);
@@ -40,23 +37,6 @@
             overflow-x: hidden;
         }
 
-        @keyframes preloaderFade {
-            0% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- PŘEPÍNAČ REŽIMŮ --- */
-        .theme-toggle {
-            position: fixed; top: 25px; right: 25px; z-index: 1000;
-            background: var(--glass); border: 1px solid var(--border-glass);
-            width: 50px; height: 50px; border-radius: 15px;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            font-size: 1.2rem; box-shadow: 0 8px 20px var(--card-shadow);
-        }
-        .theme-toggle:hover { transform: translateY(-3px); border-color: var(--secondary); }
-
-        /* --- DYNAMICKÉ POZADÍ --- */
         .bg-animate {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
             background: radial-gradient(circle at 15% 20%, rgba(99, 102, 241, 0.15), transparent 40%),
@@ -67,60 +47,51 @@
 
         .main-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; width: 100%; z-index: 1; }
 
-        /* --- HEADER & TEXT LOGO --- */
-        header { text-align: center; margin-bottom: 60px; animation: preloaderFade 1s ease-out forwards; opacity: 0; }
-        
+        header { text-align: center; margin-bottom: 60px; opacity: 0; animation: fadeIn 1s forwards; }
+        @keyframes fadeIn { to { opacity: 1; } }
+
         h1 {
             font-size: clamp(3.2rem, 12vw, 7.5rem); font-weight: 900; text-transform: uppercase;
-            letter-spacing: -4px; line-height: 0.85; margin-bottom: 20px;
+            letter-spacing: -4px; line-height: 0.9; position: relative; display: inline-block;
             background: linear-gradient(to bottom, #fff 40%, var(--secondary) 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
             filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.3));
         }
-        [data-theme="light"] h1 { filter: none; background: linear-gradient(to bottom, var(--text-main), var(--primary)); -webkit-background-clip: text; }
-        
-        .tagline {
-            font-size: 0.9rem; text-transform: uppercase; letter-spacing: 8px; margin-top: 20px;
-            font-weight: 700; color: var(--accent); opacity: 0; animation: preloaderFade 1s ease-out 0.3s forwards;
-        }
 
-        /* --- PŘEHRÁVAČ (Vylepšený) --- */
+        .live-dot {
+            height: 12px; width: 12px; background-color: var(--accent);
+            border-radius: 50%; display: inline-block; vertical-align: middle;
+            margin-left: 10px; box-shadow: 0 0 10px var(--accent);
+            animation: pulse-dot 1.5s infinite;
+        }
+        @keyframes pulse-dot { 0% { transform: scale(0.9); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.9); opacity: 0.7; } }
+
+        .tagline { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 8px; margin-top: 20px; font-weight: 700; color: var(--accent); }
+
         .player-card {
             background: var(--glass); border: 2px solid var(--border-glass);
             backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             padding: 50px 30px; border-radius: 50px; width: 100%; max-width: 580px; text-align: center;
-            box-shadow: 0 40px 100px var(--card-shadow); margin-bottom: 80px;
-            position: relative;
+            box-shadow: 0 40px 100px var(--card-shadow); margin-bottom: 80px; position: relative;
         }
-        
-        /* Neonová záře při hraní */
-        .player-card.playing {
-            border-color: rgba(6, 182, 212, 0.4);
-            box-shadow: 0 0 60px rgba(99, 102, 241, 0.2), 0 0 30px rgba(6, 182, 212, 0.1), 0 40px 100px var(--card-shadow);
-        }
+        .player-card.playing { border-color: rgba(6, 182, 212, 0.4); box-shadow: 0 0 60px var(--glow-player), 0 40px 100px var(--card-shadow); }
 
-        .now-playing { margin-bottom: 30px; min-height: 100px; }
-        #track-title { font-weight: 900; font-size: 2.1rem; display: block; margin-bottom: 8px; line-height: 1.1; color: var(--text-main); transition: opacity 0.3s ease; }
-        #track-artist { font-size: 1rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 5px; font-weight: 700; opacity: 0.8; transition: opacity 0.3s ease; }
+        #track-title { font-weight: 900; font-size: 2.1rem; display: block; margin-bottom: 8px; color: var(--text-main); transition: opacity 0.3s; }
+        #track-artist { font-size: 1rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 5px; font-weight: 700; transition: opacity 0.3s; }
 
-        /* Jemný Fade efekt pro texty */
-        .text-fade { opacity: 0 !important; }
-
-        /* Animovaný ekvalizér */
-        .visualizer-inline { display: inline-flex; gap: 3px; height: 18px; margin-left: 10px; align-items: flex-end; position: relative; top: -3px; }
-        .vis-bar { width: 3px; background: var(--secondary); border-radius: 2px; }
+        .visualizer-inline { display: inline-flex; gap: 3px; height: 18px; margin-left: 10px; align-items: flex-end; }
+        .vis-bar { width: 3px; background: var(--secondary); border-radius: 2px; height: 5px; }
         .playing .vis-bar { animation: barBounce 1s infinite alternate; }
-        .playing .vis-bar:nth-child(1) { animation-delay: 0.1s; height: 10px; }
-        .playing .vis-bar:nth-child(2) { animation-delay: 0.3s; height: 18px; }
-        .playing .vis-bar:nth-child(3) { animation-delay: 0.5s; height: 14px; }
-        
+        .playing .vis-bar:nth-child(1) { animation-delay: 0.1s; }
+        .playing .vis-bar:nth-child(2) { animation-delay: 0.3s; }
+        .playing .vis-bar:nth-child(3) { animation-delay: 0.5s; }
         @keyframes barBounce { 0% { height: 5px; } 100% { height: 18px; } }
 
         .play-outer { position: relative; width: 130px; height: 130px; margin: 30px auto; }
         .glow-ring {
             position: absolute; top: -8px; left: -8px; right: -8px; bottom: -8px; border-radius: 50%;
             background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-            opacity: 0; transition: opacity 0.5s ease;
+            opacity: 0; transition: 0.5s;
         }
         .playing .glow-ring { opacity: 0.6; animation: spinOrbit 3s linear infinite; filter: blur(12px); }
         @keyframes spinOrbit { 100% { transform: rotate(360deg); } }
@@ -133,81 +104,56 @@
         .playing #playBtn { background: var(--accent); color: #fff; }
 
         .vol-wrap { display: flex; align-items: center; gap: 15px; width: 70%; margin: 0 auto; opacity: 0.4; }
-        .vol-wrap:hover { opacity: 1; }
         input[type=range] { flex: 1; cursor: pointer; accent-color: var(--secondary); height: 4px; }
 
-        /* --- GRID SEKCE (Vylepšená) --- */
         .grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
             width: 100%; max-width: 1200px; padding-bottom: 40px;
         }
-        .card {
-            background: var(--glass); border: 1px solid var(--border-glass); padding: 40px; border-radius: 40px;
-            box-shadow: 0 20px 40px var(--card-shadow);
-        }
-        .card:hover { border-color: var(--primary); transform: translateY(-5px); }
-        [data-theme="light"] .card:hover { background: rgba(255,255,255,1); border-color: #ddd; }
-
-        .card h2 { 
-            font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; text-transform: uppercase;
-            color: var(--secondary); letter-spacing: 2px; display: flex; align-items: center; gap: 12px;
-        }
-        
-        .big-text { font-size: 1.8rem; font-weight: 900; display: block; color: var(--text-main); line-height: 1.2; margin: 10px 0; }
+        .card { background: var(--glass); border: 1px solid var(--border-glass); padding: 40px; border-radius: 40px; }
+        .card h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 20px; text-transform: uppercase; color: var(--secondary); letter-spacing: 2px; display: flex; align-items: center; gap: 12px; }
+        .big-text { font-size: 1.8rem; font-weight: 900; display: block; color: var(--text-main); margin: 10px 0; }
         .accent-text { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; }
-        .sub-text { font-weight: 500; opacity: 0.6; font-size: 0.9rem; margin-top: 10px; }
 
-        /* --- SOCIALS --- */
         .soc-row { display: flex; gap: 15px; margin-top: 30px; }
-        .soc-item {
-            width: 55px; height: 55px; border-radius: 15px; background: var(--text-main);
-            display: flex; align-items: center; justify-content: center; color: var(--bg-dark);
-            text-decoration: none; font-size: 1.6rem; transition: 0.3s;
-        }
-        .soc-item:hover { background: var(--secondary); transform: scale(1.1); color: #000; }
+        .soc-item { width: 55px; height: 55px; border-radius: 15px; background: var(--text-main); display: flex; align-items: center; justify-content: center; color: var(--bg-dark); text-decoration: none; font-size: 1.6rem; }
 
-        /* --- FOOTER --- */
-        footer { padding: 40px; text-align: center; width: 100%; margin-top: auto; border-top: 1px solid var(--border-glass); }
+        .theme-toggle { position: fixed; top: 25px; right: 25px; z-index: 1000; background: var(--glass); border: 1px solid var(--border-glass); width: 50px; height: 50px; border-radius: 15px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(12px); }
+
+        footer { padding: 40px; text-align: center; border-top: 1px solid var(--border-glass); margin-top: auto; }
         footer p { font-size: 0.75rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
-        [data-theme="light"] footer p { color: rgba(0,0,0,0.3); }
-        footer a { color: var(--secondary); text-decoration: none; }
 
-        @media (max-width: 768px) {
-            h1 { font-size: 3.5rem; letter-spacing: -3px; }
-            .player-card { padding: 40px 20px; }
-            #track-title { font-size: 1.6rem; }
-            .grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 768px) { h1 { font-size: 3.2rem; } .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
     <div class="bg-animate"></div>
 
-    <div class="theme-toggle" id="themeToggle" title="Přepnout tmavý/světlý režim">
+    <div class="theme-toggle" id="themeToggle">
         <i class="fas fa-moon" id="themeIcon"></i>
     </div>
 
     <div class="main-wrapper">
         <header>
-            <h1>MOVEIT RÁDIO</h1>
+            <h1>MOVEIT RÁDIO<span class="live-dot"></span></h1>
             <p class="tagline">Tvoje vlna energie</p>
         </header>
 
         <section class="player-card" id="playerContainer">
             <div class="now-playing">
                 <span id="track-artist">MOVEIT RÁDIO</span>
-                <span id="track-title">PŘIPRAVEN K POHYBU<div class="visualizer-inline"><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div></div></span>
+                <span id="track-title">Pripravený na pohyb<div class="visualizer-inline"><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div></div></span>
             </div>
 
             <div class="play-outer">
                 <div class="glow-ring"></div>
-                <button id="playBtn" title="Přehrát / Zastavit stream"><i class="fas fa-play" id="playIcon"></i></button>
+                <button id="playBtn"><i class="fas fa-play" id="playIcon"></i></button>
             </div>
 
             <div class="vol-wrap">
                 <i class="fas fa-volume-down"></i>
-                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8" title="Hlasitost">
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
                 <i class="fas fa-volume-up"></i>
             </div>
         </section>
@@ -215,31 +161,30 @@
         <div class="grid">
             <div class="card">
                 <h2><i class="fas fa-compact-disc"></i> PROGRAM</h2>
-                <p class="accent-text">Každý pátek v akci:</p>
-                <span class="big-text">Večerní show s DJ Filipem</span>
-                <p class="sub-text">20:00 — 22:00 | LIVE DANCE MIX</p>
+                <p class="accent-text">Každý piatok:</p>
+                <span class="big-text">Večerná zábava</span>
+                <p style="opacity: 0.6; font-size: 0.9rem;">20:00 — 22:00 | LIVE DANCE MIX</p>
             </div>
 
             <div class="card">
-                <h2><i class="fas fa-sun"></i> EXTRA SHOW</h2>
-                <p class="accent-text">Podle nálady:</p>
-                <span class="big-text">Denní jízda s Filipem</span>
-                <p class="sub-text">Operativní vysílání plné energie</p>
+                <h2><i class="fas fa-bolt"></i> EXTRA SHOW</h2>
+                <p class="accent-text">Oficiálne vysielanie:</p>
+                <span class="big-text">Denná zábava</span>
+                <p style="opacity: 0.6; font-size: 0.9rem;">S DJ Filipom podľa aktuálnej nálady</p>
             </div>
 
             <div class="card">
-                <h2><i class="fas fa-heart"></i> SLEDUJ NÁS</h2>
-                <p class="accent-text">Komunita:</p>
+                <h2><i class="fas fa-share-nodes"></i> SLEDUJ NÁS</h2>
                 <div class="soc-row">
-                    <a href="https://www.instagram.com/moveitradio_sk" class="soc-item ig" target="_blank" title="Sleduj nás na Instagramu"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@moveitradio_sk" class="soc-item tt" target="_blank" title="Sleduj nás na TikToku"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
     </div>
 
     <footer>
-        <p>POWERED BY <a href="https://sites.google.com/view/martin-weby/web" target="_blank">MARTIN</a> &copy; 2026</p>
+        <p>POWERED BY <a href="https://sites.google.com/view/martin-weby/web" target="_blank" style="color:var(--secondary); text-decoration:none;">MARTIN</a> &copy; 2026</p>
     </footer>
 
     <audio id="radioAudio" src="https://stream.zeno.fm/jkrusgbmbtcvv" preload="none"></audio>
@@ -251,7 +196,6 @@
         const playerContainer = document.getElementById('playerContainer');
         const trackTitle = document.getElementById('track-title');
         const trackArtist = document.getElementById('track-artist');
-        
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
         
@@ -271,21 +215,18 @@
                 audio.play();
                 playIcon.className = 'fas fa-pause';
                 playerContainer.classList.add('playing');
-                if(trackTitle.innerText === "PŘIPRAVEN K POHYBU") {
-                    trackTitle.innerHTML = "NAČÍTÁM...<div class='visualizer-inline'><div class='vis-bar'></div><div class='vis-bar'></div><div class='vis-bar'></div></div>";
-                }
+                trackTitle.innerHTML = "Načítavam...<div class='visualizer-inline'><div class='vis-bar'></div><div class='vis-bar'></div><div class='vis-bar'></div></div>";
             } else {
                 audio.pause();
                 audio.src = ""; 
                 playIcon.className = 'fas fa-play';
                 playerContainer.classList.remove('playing');
-                trackTitle.innerHTML = "ZASTAVENO<div class='visualizer-inline'><div class='vis-bar'></div><div class='vis-bar'></div><div class='vis-bar'></div></div>";
+                trackTitle.innerHTML = "Zastavené<div class='visualizer-inline'><div class='vis-bar'></div><div class='vis-bar'></div><div class='vis-bar'></div></div>";
             }
         });
 
         document.getElementById('volume').addEventListener('input', (e) => audio.volume = e.target.value);
 
-        // --- METADATA API (Vylepšené o Fade efekt) ---
         let currentTitle = "";
         let currentArtist = "";
 
@@ -299,14 +240,14 @@
                     let title = (parts[1] || data.streamTitle).toUpperCase();
                     
                     if (artist !== currentArtist || title !== currentTitle) {
-                        trackTitle.classList.add('text-fade');
-                        trackArtist.classList.add('text-fade');
+                        trackTitle.style.opacity = 0;
+                        trackArtist.style.opacity = 0;
                         
                         setTimeout(() => {
                             trackArtist.innerText = artist;
                             trackTitle.innerHTML = title + "<div class='visualizer-inline'><div class='vis-bar'></div><div class='vis-bar'></div><div class='vis-bar'></div></div>";
-                            trackTitle.classList.remove('text-fade');
-                            trackArtist.classList.remove('text-fade');
+                            trackTitle.style.opacity = 1;
+                            trackArtist.style.opacity = 1;
                         }, 300);
                         
                         currentArtist = artist;
