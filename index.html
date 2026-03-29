@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Moveit Rádio | Žij hudbou 2026 – Tvoja online vlna energie</title>
-    
-    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg">
-
     <meta name="description" content="Moveit Rádio – tvoja vlna energie! Počúvaj najlepšie tanečné mixy, sleduj live show s DJ Filipom a uži si poriadnu dávku hudby online 24/7.">
     <meta name="keywords" content="Moveit Rádio, online rádio, tanečná hudba, DJ Filip, live stream rádio, slovenské rádio, dance mix">
     <meta name="author" content="Moveit Rádio">
     <meta name="robots" content="index, follow">
     
+    <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg">
+    <link rel="apple-touch-icon" href="https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg">
+
     <meta property="og:type" content="website">
     <meta property="og:title" content="Moveit Rádio | Žij hudbou 2026">
     <meta property="og:description" content="Tvoja vlna energie! Počúvaj najlepšie tanečné hity a live show s DJ Filipom.">
@@ -26,15 +26,23 @@
       "name": "Moveit Rádio",
       "url": "https://moveitradio.sk/",
       "logo": "https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg",
+      "image": "https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg",
       "description": "Slovenská internetová rozhlasová stanica zameraná na tanečnú hudbu a live mixy.",
+      "brand": {
+        "@type": "Brand",
+        "name": "Moveit Rádio",
+        "logo": "https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg"
+      },
       "sameAs": [
         "https://www.instagram.com/moveitradio_sk",
         "https://www.tiktok.com/@moveitradio_sk"
       ]
     }
     </script>
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #6366f1; 
@@ -46,6 +54,9 @@
             --border-glass: rgba(255, 255, 255, 0.08);
             --card-shadow: rgba(0, 0, 0, 0.6);
             --glow-player: rgba(99, 102, 241, 0.2);
+            --footer-text: rgba(255, 255, 255, 0.3);
+            /* Biely nápis s prechodom zostáva biely v oboch režimoch pre čistý vzhľad */
+            --h1-gradient: linear-gradient(to bottom, #fff 40%, #06b6d4 100%);
         }
 
         [data-theme="light"] {
@@ -54,9 +65,10 @@
             --glass: rgba(255, 255, 255, 0.8);
             --border-glass: rgba(15, 23, 42, 0.08);
             --card-shadow: rgba(0, 0, 0, 0.05);
+            --footer-text: rgba(15, 23, 42, 0.5);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.4s, color 0.4s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
 
         body {
             background: var(--bg-dark);
@@ -66,6 +78,17 @@
             flex-direction: column;
             overflow-x: hidden;
         }
+
+        .top-nav {
+            width: 100%; background: var(--glass); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-glass); padding: 15px 20px; position: sticky; top: 0;
+            z-index: 1000; display: flex; justify-content: center; gap: 30px;
+        }
+        .top-nav a {
+            color: var(--text-main); text-decoration: none; font-weight: 700; text-transform: uppercase;
+            font-size: 0.9rem; letter-spacing: 1px; transition: 0.3s; display: flex; align-items: center; gap: 8px;
+        }
+        .top-nav a:hover, .top-nav a.active { color: var(--secondary); }
 
         .bg-animate {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
@@ -77,15 +100,14 @@
 
         .main-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 20px; width: 100%; z-index: 1; }
 
-        header { text-align: center; margin-bottom: 60px; opacity: 0; animation: fadeIn 1s forwards; }
-        @keyframes fadeIn { to { opacity: 1; } }
+        header { text-align: center; margin-bottom: 60px; }
 
         h1 {
             font-size: clamp(3rem, 10vw, 7rem); font-weight: 900; text-transform: uppercase;
             letter-spacing: -3px; line-height: 0.9; position: relative; display: inline-block;
-            background: linear-gradient(to bottom, #fff 40%, var(--secondary) 100%);
+            background: var(--h1-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 30px rgba(6, 182, 212, 0.3));
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.3));
         }
 
         .live-dot {
@@ -102,13 +124,13 @@
             background: var(--glass); border: 2px solid var(--border-glass);
             backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px);
             padding: 50px 30px; border-radius: 40px; width: 100%; max-width: 550px; text-align: center;
-            box-shadow: 0 40px 100px var(--card-shadow); margin-bottom: 60px; position: relative;
+            box-shadow: 0 40px 100px var(--card-shadow); margin-bottom: 25px; position: relative;
         }
         .player-card.playing { border-color: rgba(6, 182, 212, 0.4); box-shadow: 0 0 50px var(--glow-player), 0 40px 100px var(--card-shadow); }
 
-        .now-playing { min-height: 110px; display: flex; flex-direction: column; justify-content: center; overflow: hidden; }
-        #track-title { font-weight: 900; font-size: clamp(1.4rem, 5vw, 2rem); display: block; margin-bottom: 8px; color: var(--text-main); transition: opacity 0.3s; line-height: 1.2; }
-        #track-artist { font-size: 0.9rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 4px; font-weight: 700; transition: opacity 0.3s; }
+        .now-playing { min-height: 110px; display: flex; flex-direction: column; justify-content: center; }
+        #track-title { font-weight: 900; font-size: clamp(1.4rem, 5vw, 2rem); display: block; margin-bottom: 8px; color: var(--text-main); line-height: 1.2; }
+        #track-artist { font-size: 0.9rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 4px; font-weight: 700; }
 
         .visualizer-inline { display: inline-flex; gap: 3px; height: 16px; margin-left: 10px; align-items: flex-end; }
         .vis-bar { width: 3px; background: var(--secondary); border-radius: 2px; height: 4px; }
@@ -137,36 +159,55 @@
         .vol-wrap:hover { opacity: 1; }
         input[type=range] { flex: 1; cursor: pointer; accent-color: var(--secondary); height: 4px; }
 
-        .grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;
-            width: 100%; max-width: 1100px; padding-bottom: 40px;
+        .history-container {
+            width: 100%; max-width: 550px; background: var(--glass); border: 1px solid var(--border-glass);
+            border-radius: 30px; padding: 20px; margin-bottom: 60px; backdrop-filter: blur(10px);
         }
+        .history-container h3 { font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; color: var(--secondary); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .history-scroll { max-height: 230px; overflow-y: auto; padding-right: 5px; scroll-behavior: smooth; }
+        .history-scroll::-webkit-scrollbar { width: 4px; }
+        .history-scroll::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 10px; }
+
+        .history-item { 
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0; border-bottom: 1px solid var(--border-glass);
+            animation: slideIn 0.4s ease-out;
+        }
+        .history-item:last-child { border: none; }
+        .h-info { display: flex; flex-direction: column; text-align: left; }
+        .h-title { font-weight: 700; font-size: 0.95rem; color: var(--text-main); line-height: 1.2; }
+        .h-artist { font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
+        .yt-btn { color: #ff0000; font-size: 1.2rem; opacity: 0.7; transition: 0.3s; margin-left: 10px; }
+        .yt-btn:hover { opacity: 1; transform: scale(1.1); }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding-bottom: 40px; }
         .card { background: var(--glass); border: 1px solid var(--border-glass); padding: 35px; border-radius: 35px; }
         .card h2 { font-size: 1rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; color: var(--secondary); letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
         .big-text { font-size: 1.6rem; font-weight: 900; display: block; color: var(--text-main); margin: 5px 0; line-height: 1.2; }
         .accent-text { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
 
-        .sponsor-section { width: 100%; max-width: 1100px; margin-bottom: 40px; }
-        .sponsor-card { background: var(--glass); border: 1px solid var(--border-glass); padding: 30px; border-radius: 35px; text-align: center; }
+        .sponsor-card { background: var(--glass); border: 1px solid var(--border-glass); padding: 30px; border-radius: 35px; text-align: center; width: 100%; max-width: 1100px; }
         .sponsor-img { width: 100%; max-width: 450px; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-top: 15px; display: inline-block; }
 
         .soc-row { display: flex; gap: 12px; margin-top: 25px; }
         .soc-item { width: 50px; height: 50px; border-radius: 12px; background: var(--text-main); display: flex; align-items: center; justify-content: center; color: var(--bg-dark); text-decoration: none; font-size: 1.4rem; }
-        .soc-item:hover { transform: scale(1.1); background: var(--secondary); }
 
-        .theme-toggle { position: fixed; top: 20px; right: 20px; z-index: 1000; background: var(--glass); border: 1px solid var(--border-glass); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); }
+        .theme-toggle { position: fixed; top: 80px; right: 20px; z-index: 1000; background: var(--glass); border: 1px solid var(--border-glass); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); }
 
         footer { padding: 30px; text-align: center; border-top: 1px solid var(--border-glass); margin-top: auto; }
-        footer p { font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+        footer p { font-size: 0.7rem; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--footer-text); }
 
-        @media (max-width: 600px) {
-            .main-wrapper { padding: 40px 15px; }
-            h1 { font-size: 3.5rem; }
-            .player-card { padding: 40px 20px; }
-        }
+        @media (max-width: 600px) { h1 { font-size: 3.5rem; } }
     </style>
 </head>
-<body>
+<body id="bodyTag">
+
+    <nav class="top-nav">
+        <a href="/" class="active"><i class="fas fa-home"></i> Domov</a>
+        <a href="dj-filip/"><i class="fas fa-headphones"></i> DJ Filip</a>
+    </nav>
 
     <div class="bg-animate"></div>
 
@@ -193,75 +234,90 @@
 
             <div class="vol-wrap">
                 <i class="fas fa-volume-down"></i>
-                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8" aria-label="Hlasitosť">
+                <input type="range" id="volume" min="0" max="1" step="0.01" value="0.8">
                 <i class="fas fa-volume-up"></i>
             </div>
         </section>
+
+        <div class="history-container">
+            <h3><i class="fas fa-history"></i> Naposledy hrané</h3>
+            <div class="history-scroll" id="historyList"></div>
+        </div>
 
         <div class="grid">
             <div class="card">
                 <h2><i class="fas fa-compact-disc"></i> PROGRAM</h2>
                 <p class="accent-text">Každý piatok:</p>
                 <span class="big-text">Večerná zábava s DJ Filipom</span>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">20:00 — 22:00 | LIVE DANCE MIX</p>
+                <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">17:30 — 19:40 | LIVE DANCE MIX</p>
             </div>
-
             <div class="card">
                 <h2><i class="fas fa-bolt"></i> EXTRA SHOW</h2>
                 <p class="accent-text">Oficiálne vysielanie:</p>
                 <span class="big-text">Denná zábava s DJ Filipom</span>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">Podľa aktuálnej nálady a energie</p>
+                <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">Podľa aktuálnej nálady</p>
             </div>
-
             <div class="card">
                 <h2><i class="fas fa-share-nodes"></i> SLEDUJ NÁS</h2>
                 <div class="soc-row">
-                    <a href="https://www.instagram.com/moveitradio_sk" class="soc-item" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@moveitradio_sk" class="soc-item" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.instagram.com/moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
         </div>
 
-        <section class="sponsor-section">
-            <div class="sponsor-card">
-                <h2><i class="fas fa-star"></i> OFICIÁLNY PARTNER</h2>
-                <a href="https://www.print-up.at/" target="_blank">
-                    <img src="https://lh3.googleusercontent.com/d/1eR0l1OLGVqhNxwRYDLMouGSFq1HouRVa" alt="Partner Print-Up.at" class="sponsor-img">
-                </a>
-            </div>
-        </section>
+        <div class="sponsor-card">
+            <h2><i class="fas fa-star"></i> OFICIÁLNY PARTNER</h2>
+            <a href="https://www.print-up.at/" target="_blank">
+                <img src="https://lh3.googleusercontent.com/d/1eR0l1OLGVqhNxwRYDLMouGSFq1HouRVa" alt="Partner" class="sponsor-img">
+            </a>
+        </div>
     </div>
 
     <footer>
         <p>POWERED BY <a href="https://sites.google.com/view/martin-weby/web" target="_blank" style="color:var(--secondary); text-decoration:none;">MARTIN</a> © 2026</p>
     </footer>
 
-    <audio id="radioAudio" src="https://stream.zeno.fm/jkrusgbmbtcvv" preload="none"></audio>
+    <audio id="radioAudio" preload="none"></audio>
 
     <script>
         const audio = document.getElementById('radioAudio');
         const playBtn = document.getElementById('playBtn');
         const playIcon = document.getElementById('playIcon');
         const playerContainer = document.getElementById('playerContainer');
-        const trackTitle = document.getElementById('track-title');
-        const trackArtist = document.getElementById('track-artist');
         const themeToggle = document.getElementById('themeToggle');
         const themeIcon = document.getElementById('themeIcon');
-        
-        themeToggle.addEventListener('click', () => {
-            if (document.body.getAttribute('data-theme') === 'light') {
-                document.body.removeAttribute('data-theme');
-                themeIcon.className = 'fas fa-moon';
-            } else {
-                document.body.setAttribute('data-theme', 'light');
+        const body = document.getElementById('bodyTag');
+        const trackTitle = document.getElementById('track-title');
+        const trackArtist = document.getElementById('track-artist');
+        const historyList = document.getElementById('historyList');
+
+        let lastTrack = "";
+
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                body.setAttribute('data-theme', 'light');
                 themeIcon.className = 'fas fa-sun';
+            } else {
+                body.removeAttribute('data-theme');
+                themeIcon.className = 'fas fa-moon';
             }
+        }
+
+        const savedTheme = localStorage.getItem('radioTheme') || 'dark';
+        applyTheme(savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = body.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            localStorage.setItem('radioTheme', newTheme);
+            applyTheme(newTheme);
         });
 
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
                 audio.src = "https://stream.zeno.fm/jkrusgbmbtcvv"; 
-                audio.play().catch(error => console.log("Prehrávanie zlyhalo:", error));
+                audio.play();
                 playIcon.className = 'fas fa-pause';
                 playerContainer.classList.add('playing');
             } else {
@@ -274,34 +330,67 @@
 
         document.getElementById('volume').addEventListener('input', (e) => audio.volume = e.target.value);
 
-        let currentFullTitle = "";
-        function subscribeToMetadata() {
-            const eventSource = new EventSource('https://api.zeno.fm/mounts/metadata/subscribe/jkrusgbmbtcvv');
-            eventSource.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                if (data.streamTitle && data.streamTitle !== currentFullTitle) {
-                    currentFullTitle = data.streamTitle;
+        function createHistoryItem(fullTitle) {
+            if (!fullTitle || fullTitle.trim() === "" || fullTitle.includes("Zeno.fm")) return null;
+            const parts = fullTitle.split(' - ');
+            const artist = (parts[0] || "MOVEIT RÁDIO").trim();
+            const title = (parts[1] || parts[0]).trim();
+            const ytLink = `https://www.youtube.com/results?search_query=${encodeURIComponent(fullTitle)}`;
+
+            const div = document.createElement('div');
+            div.className = 'history-item';
+            div.innerHTML = `
+                <div class="h-info">
+                    <span class="h-title">${title.toUpperCase()}</span>
+                    <span class="h-artist">${artist.toUpperCase()}</span>
+                </div>
+                <a href="${ytLink}" target="_blank" class="yt-btn"><i class="fab fa-youtube"></i></a>
+            `;
+            return div;
+        }
+
+        function checkHistoryLimit() {
+            while (historyList.children.length > 20) {
+                historyList.lastElementChild.remove();
+            }
+        }
+
+        function subscribe() {
+            const es = new EventSource('https://api.zeno.fm/mounts/metadata/subscribe/jkrusgbmbtcvv');
+            es.onmessage = (e) => {
+                const data = JSON.parse(e.data);
+                if (data.streamTitle) {
+                    if (lastTrack !== "" && lastTrack !== data.streamTitle) {
+                        const item = createHistoryItem(lastTrack);
+                        if (item) {
+                            historyList.prepend(item);
+                            checkHistoryLimit();
+                        }
+                    }
+                    lastTrack = data.streamTitle;
                     const parts = data.streamTitle.split(' - ');
-                    const artist = (parts[0] || "MOVEIT RÁDIO").toUpperCase();
-                    const title = (parts[1] || parts[0]).toUpperCase();
-                    
-                    trackTitle.style.opacity = 0;
-                    trackArtist.style.opacity = 0;
-                    
-                    setTimeout(() => {
-                        trackArtist.innerText = artist;
-                        trackTitle.innerHTML = title + `<div class="visualizer-inline"><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div></div>`;
-                        trackTitle.style.opacity = 1;
-                        trackArtist.style.opacity = 1;
-                    }, 300);
+                    trackArtist.innerText = (parts[0] || "MOVEIT RÁDIO").toUpperCase();
+                    trackTitle.innerHTML = (parts[1] || parts[0]).toUpperCase() + `<div class="visualizer-inline"><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div></div>`;
                 }
             };
-            eventSource.onerror = () => {
-                eventSource.close();
-                setTimeout(subscribeToMetadata, 5000);
-            };
+            es.onerror = () => { es.close(); setTimeout(subscribe, 5000); };
         }
-        subscribeToMetadata();
+
+        async function initHistory() {
+            try {
+                const res = await fetch('https://api.zeno.fm/mounts/metadata/history/jkrusgbmbtcvv');
+                const data = await res.json();
+                if (data && data.length > 1) {
+                    data.slice(1, 21).forEach(song => {
+                        const item = createHistoryItem(song.title);
+                        if (item) historyList.appendChild(item);
+                    });
+                }
+            } catch (err) { console.log("History error:", err); }
+        }
+
+        subscribe();
+        initHistory();
     </script>
 </body>
 </html>
