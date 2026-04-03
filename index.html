@@ -55,7 +55,6 @@
             --card-shadow: rgba(0, 0, 0, 0.6);
             --glow-player: rgba(99, 102, 241, 0.2);
             --footer-text: rgba(255, 255, 255, 0.3);
-            /* Biely nápis s prechodom zostáva biely v oboch režimoch pre čistý vzhľad */
             --h1-gradient: linear-gradient(to bottom, #fff 40%, #06b6d4 100%);
         }
 
@@ -63,9 +62,10 @@
             --bg-dark: #f1f5f9;
             --text-main: #0f172a;
             --glass: rgba(255, 255, 255, 0.8);
-            --border-glass: rgba(15, 23, 42, 0.08);
+            --border-glass: rgba(15, 23, 42, 0.12);
             --card-shadow: rgba(0, 0, 0, 0.05);
             --footer-text: rgba(15, 23, 42, 0.5);
+            --h1-gradient: linear-gradient(to bottom, #0f172a 40%, #06b6d4 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
@@ -107,7 +107,7 @@
             letter-spacing: -3px; line-height: 0.9; position: relative; display: inline-block;
             background: var(--h1-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.1));
         }
 
         .live-dot {
@@ -183,16 +183,31 @@
         @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; width: 100%; max-width: 1100px; padding-bottom: 40px; }
-        .card { background: var(--glass); border: 1px solid var(--border-glass); padding: 35px; border-radius: 35px; }
+        .card { 
+            background: var(--glass); border: 1px solid var(--border-glass); 
+            padding: 35px; border-radius: 35px;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
         .card h2 { font-size: 1rem; font-weight: 800; margin-bottom: 15px; text-transform: uppercase; color: var(--secondary); letter-spacing: 2px; display: flex; align-items: center; gap: 10px; }
         .big-text { font-size: 1.6rem; font-weight: 900; display: block; color: var(--text-main); margin: 5px 0; line-height: 1.2; }
         .accent-text { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
 
-        .sponsor-card { background: var(--glass); border: 1px solid var(--border-glass); padding: 30px; border-radius: 35px; text-align: center; width: 100%; max-width: 1100px; }
+        /* Tlačidlo Moje Odkazy */
+        .link-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--text-main); color: var(--bg-dark); text-decoration: none;
+            padding: 14px; border-radius: 12px; font-weight: 800; margin-top: 20px;
+            text-transform: uppercase; font-size: 0.85rem; transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .link-btn:hover { background: var(--secondary); color: white; transform: translateY(-3px); }
+
+        .sponsor-card { background: var(--glass); border: 1px solid var(--border-glass); padding: 30px; border-radius: 35px; text-align: center; width: 100%; max-width: 1100px; margin-top: 20px; }
         .sponsor-img { width: 100%; max-width: 450px; height: auto; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); margin-top: 15px; display: inline-block; }
 
-        .soc-row { display: flex; gap: 12px; margin-top: 25px; }
-        .soc-item { width: 50px; height: 50px; border-radius: 12px; background: var(--text-main); display: flex; align-items: center; justify-content: center; color: var(--bg-dark); text-decoration: none; font-size: 1.4rem; }
+        .soc-row { display: flex; gap: 12px; margin-top: 15px; }
+        .soc-item { width: 50px; height: 50px; border-radius: 12px; background: var(--text-main); display: flex; align-items: center; justify-content: center; color: var(--bg-dark); text-decoration: none; font-size: 1.4rem; transition: 0.3s; }
+        .soc-item:hover { transform: scale(1.1); background: var(--secondary); color: #fff; }
 
         .theme-toggle { position: fixed; top: 80px; right: 20px; z-index: 1000; background: var(--glass); border: 1px solid var(--border-glass); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); }
 
@@ -246,22 +261,41 @@
 
         <div class="grid">
             <div class="card">
-                <h2><i class="fas fa-compact-disc"></i> PROGRAM</h2>
-                <p class="accent-text">Každý piatok:</p>
-                <span class="big-text">Večerná zábava s DJ Filipom</span>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">17:30 — 19:40 | LIVE DANCE MIX</p>
+                <div>
+                    <h2><i class="fas fa-compact-disc"></i> PROGRAM</h2>
+                    <p class="accent-text">Každý piatok:</p>
+                    <span class="big-text">Večerná zábava s DJ Filipom</span>
+                    <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">17:30 — 19:40 | LIVE DANCE MIX</p>
+                </div>
             </div>
+            
             <div class="card">
-                <h2><i class="fas fa-bolt"></i> EXTRA SHOW</h2>
-                <p class="accent-text">Oficiálne vysielanie:</p>
-                <span class="big-text">Denná zábava s DJ Filipom</span>
-                <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">Podľa aktuálnej nálady</p>
+                <div>
+                    <h2><i class="fas fa-bolt"></i> EXTRA SHOW</h2>
+                    <p class="accent-text">Oficiálne vysielanie:</p>
+                    <span class="big-text">Denná zábava s DJ Filipom</span>
+                    <p style="opacity: 0.6; font-size: 0.85rem; margin-top: 5px;">Podľa aktuálnej nálady</p>
+                </div>
             </div>
+
             <div class="card">
-                <h2><i class="fas fa-share-nodes"></i> SLEDUJ NÁS</h2>
-                <div class="soc-row">
-                    <a href="https://www.instagram.com/moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.tiktok.com/@moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-tiktok"></i></a>
+                <div>
+                    <h2><i class="fas fa-link"></i> MOJE ODKAZY</h2>
+                    <p class="accent-text">Kontakt a sociálne siete:</p>
+                    <span class="big-text">Všetko na jednom mieste</span>
+                </div>
+                <a href="http://link.moveitradio.sk/" class="link-btn" target="_blank">
+                    <i class="fas fa-external-link-alt"></i> Otvoriť odkazy
+                </a>
+            </div>
+
+            <div class="card">
+                <div>
+                    <h2><i class="fas fa-share-nodes"></i> SLEDUJ NÁS</h2>
+                    <div class="soc-row">
+                        <a href="https://www.instagram.com/moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.tiktok.com/@moveitradio_sk" class="soc-item" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
