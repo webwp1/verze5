@@ -19,27 +19,6 @@
     <meta property="og:image" content="https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg"> 
     <meta property="og:url" content="https://moveitradio.sk/">
 
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "RadioStation",
-      "name": "Moveit Rádio",
-      "url": "https://moveitradio.sk/",
-      "logo": "https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg",
-      "image": "https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg",
-      "description": "Slovenská internetová rozhlasová stanica zameraná na tanečnú hudbu a live mixy.",
-      "brand": {
-        "@type": "Brand",
-        "name": "Moveit Rádio",
-        "logo": "https://lh3.googleusercontent.com/d/1iuStY2ljPhULgoZQXEHAAYlBAW-3tneg"
-      },
-      "sameAs": [
-        "https://www.instagram.com/moveitradio_sk",
-        "https://www.tiktok.com/@moveitradio_sk"
-      ]
-    }
-    </script>
-
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     
@@ -68,7 +47,7 @@
             --h1-gradient: linear-gradient(to bottom, #0f172a 40%, #06b6d4 100%);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; transition: background 0.3s ease, color 0.3s ease; }
 
         body {
             background: var(--bg-dark);
@@ -107,7 +86,6 @@
             letter-spacing: -3px; line-height: 0.9; position: relative; display: inline-block;
             background: var(--h1-gradient);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.1));
         }
 
         .live-dot {
@@ -146,7 +124,6 @@
             opacity: 0; transition: 0.5s;
         }
         .playing .glow-ring { opacity: 0.5; animation: spinOrbit 4s linear infinite; filter: blur(10px); }
-        @keyframes spinOrbit { 100% { transform: rotate(360deg); } }
 
         #playBtn {
             width: 100%; height: 100%; border-radius: 50%; border: none;
@@ -173,7 +150,6 @@
             padding: 12px 0; border-bottom: 1px solid var(--border-glass);
             animation: slideIn 0.4s ease-out;
         }
-        .history-item:last-child { border: none; }
         .h-info { display: flex; flex-direction: column; text-align: left; }
         .h-title { font-weight: 700; font-size: 0.95rem; color: var(--text-main); line-height: 1.2; }
         .h-artist { font-size: 0.75rem; color: var(--secondary); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; }
@@ -192,13 +168,11 @@
         .big-text { font-size: 1.6rem; font-weight: 900; display: block; color: var(--text-main); margin: 5px 0; line-height: 1.2; }
         .accent-text { color: var(--accent); font-weight: 700; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
 
-        /* Tlačidlo Moje Odkazy */
         .link-btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 10px;
             background: var(--text-main); color: var(--bg-dark); text-decoration: none;
             padding: 14px; border-radius: 12px; font-weight: 800; margin-top: 20px;
             text-transform: uppercase; font-size: 0.85rem; transition: 0.3s;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
         .link-btn:hover { background: var(--secondary); color: white; transform: translateY(-3px); }
 
@@ -315,6 +289,9 @@
     <audio id="radioAudio" preload="none"></audio>
 
     <script>
+        const STREAM_URL = "https://play.radiosebastian.eu/listen/moveitradiosk/radio.mp3";
+        const API_URL = "https://play.radiosebastian.eu/api/nowplaying/moveitradiosk";
+
         const audio = document.getElementById('radioAudio');
         const playBtn = document.getElementById('playBtn');
         const playIcon = document.getElementById('playIcon');
@@ -326,8 +303,9 @@
         const trackArtist = document.getElementById('track-artist');
         const historyList = document.getElementById('historyList');
 
-        let lastTrack = "";
+        let lastTrackId = "";
 
+        // Téma
         function applyTheme(theme) {
             if (theme === 'light') {
                 body.setAttribute('data-theme', 'light');
@@ -342,15 +320,16 @@
         applyTheme(savedTheme);
 
         themeToggle.addEventListener('click', () => {
-            const currentTheme = body.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const isLight = body.getAttribute('data-theme') === 'light';
+            const newTheme = isLight ? 'dark' : 'light';
             localStorage.setItem('radioTheme', newTheme);
             applyTheme(newTheme);
         });
 
+        // Prehrávač
         playBtn.addEventListener('click', () => {
             if (audio.paused) {
-                audio.src = "https://stream.zeno.fm/jkrusgbmbtcvv"; 
+                audio.src = STREAM_URL; 
                 audio.play();
                 playIcon.className = 'fas fa-pause';
                 playerContainer.classList.add('playing');
@@ -364,12 +343,13 @@
 
         document.getElementById('volume').addEventListener('input', (e) => audio.volume = e.target.value);
 
-        function createHistoryItem(fullTitle) {
-            if (!fullTitle || fullTitle.trim() === "" || fullTitle.includes("Zeno.fm")) return null;
-            const parts = fullTitle.split(' - ');
+        // API Logika
+        function createHistoryItem(songText) {
+            if (!songText || songText.trim() === "") return null;
+            const parts = songText.split(' - ');
             const artist = (parts[0] || "MOVEIT RÁDIO").trim();
             const title = (parts[1] || parts[0]).trim();
-            const ytLink = `https://www.youtube.com/results?search_query=${encodeURIComponent(fullTitle)}`;
+            const ytLink = `https://www.youtube.com/results?search_query=${encodeURIComponent(songText)}`;
 
             const div = document.createElement('div');
             div.className = 'history-item';
@@ -383,47 +363,45 @@
             return div;
         }
 
-        function checkHistoryLimit() {
-            while (historyList.children.length > 20) {
-                historyList.lastElementChild.remove();
-            }
-        }
-
-        function subscribe() {
-            const es = new EventSource('https://api.zeno.fm/mounts/metadata/subscribe/jkrusgbmbtcvv');
-            es.onmessage = (e) => {
-                const data = JSON.parse(e.data);
-                if (data.streamTitle) {
-                    if (lastTrack !== "" && lastTrack !== data.streamTitle) {
-                        const item = createHistoryItem(lastTrack);
-                        if (item) {
-                            historyList.prepend(item);
-                            checkHistoryLimit();
-                        }
+        async function updateNowPlaying() {
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                if (data && data.now_playing) {
+                    const np = data.now_playing.song;
+                    
+                    // Aktualizácia textov
+                    trackArtist.innerText = np.artist.toUpperCase();
+                    trackTitle.innerHTML = np.title.toUpperCase() + `<div class="visualizer-inline"><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div></div>`;
+                    
+                    // Ak sa zmenila skladba, prekresli históriu
+                    if (lastTrackId !== np.id) {
+                        lastTrackId = np.id;
+                        initHistory(); // Refresh histórie zo servera
                     }
-                    lastTrack = data.streamTitle;
-                    const parts = data.streamTitle.split(' - ');
-                    trackArtist.innerText = (parts[0] || "MOVEIT RÁDIO").toUpperCase();
-                    trackTitle.innerHTML = (parts[1] || parts[0]).toUpperCase() + `<div class="visualizer-inline"><div class="vis-bar"></div><div class="vis-bar"></div><div class="vis-bar"></div></div>`;
                 }
-            };
-            es.onerror = () => { es.close(); setTimeout(subscribe, 5000); };
+            } catch (err) { console.error("API Error:", err); }
         }
 
         async function initHistory() {
             try {
-                const res = await fetch('https://api.zeno.fm/mounts/metadata/history/jkrusgbmbtcvv');
-                const data = await res.json();
-                if (data && data.length > 1) {
-                    data.slice(1, 21).forEach(song => {
-                        const item = createHistoryItem(song.title);
-                        if (item) historyList.appendChild(item);
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                if (data && data.song_history) {
+                    historyList.innerHTML = "";
+                    data.song_history.forEach(item => {
+                        const el = createHistoryItem(item.song.text);
+                        if (el) historyList.appendChild(el);
                     });
                 }
-            } catch (err) { console.log("History error:", err); }
+            } catch (err) { console.error("History Error:", err); }
         }
 
-        subscribe();
+        // Intervaly
+        setInterval(updateNowPlaying, 15000); // Každých 15 sekúnd kontrola
+        updateNowPlaying();
         initHistory();
     </script>
 </body>
